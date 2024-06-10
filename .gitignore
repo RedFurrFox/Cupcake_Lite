@@ -9,4 +9,6 @@ gen
 
 *TEST_*
 configs.py
+__pycache__
 localpackages/configs.json
+localpackages/__pycache__
