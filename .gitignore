@@ -11,4 +11,4 @@ gen
 configs.py
 __pycache__
 localpackages/configs.json
-localpackages/__pycache__
+localpackages/__pycache__/
