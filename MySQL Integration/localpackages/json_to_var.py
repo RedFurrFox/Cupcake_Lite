@@ -9,12 +9,13 @@ class json_to_var:
 		self.posix = others.posix_type()
 		self.Guilded_API = ""
 		self.Default_Prefix = ""
-		self.Bot_Owner = None
+		self.Bot_Owners = None
 		self.Bot_Error_Log_CID = None
 		self.mysql_hostname = ""
 		self.mysql_username = ""
 		self.mysql_password = None
 		self.mysql_dbname = ""
+		self.run()
 
 	def run(self):
 		print("on json_to_var.py file")
@@ -40,7 +41,7 @@ class json_to_var:
 		configs_format = ("{\n"
 		                  "	\"Guilded_API\": \"\",\n"
 		                  "	\"Default_Prefix\": \"\",\n"
-		                  "	\"Bot_Owner\": null,\n"
+		                  "	\"Bot_Owners\": [\"\"],\n"
 		                  "	\"Bot_Error_Log_CID\": null,\n"
 		                  "	\n"
 		                  "	\"MySQL_Connection\": {\n"
@@ -75,8 +76,8 @@ class json_to_var:
 				print("Default_Prefix empty! using cl. instead.")
 				self.Default_Prefix = "cl."
 
-			print("Grabbing the value for Bot_Owner")
-			self.Bot_Owner = content["Bot_Owner"]
+			print("Grabbing the value for Bot_Owners")
+			self.Bot_Owners = content["Bot_Owners"]
 
 			print("Grabbing the value for Bot_Error_Log_CID")
 			self.Bot_Error_Log_CID = content["Bot_Error_Log_CID"]

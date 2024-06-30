@@ -8,7 +8,9 @@ out
 gen
 
 *TEST_*
-configs.py
+configs.json
 __pycache__
 localpackages/configs.json
 localpackages/__pycache__/
+TEST/
+/MySQL Integration/configs.json

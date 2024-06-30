@@ -3,6 +3,8 @@ import mysql.connector
 
 class db_handler:
 	def __init__(self, host, user, password, database):
+		self.conn = None
+		self.curs = None
 		try:
 			self.conn = mysql.connector.connect(
 				host=host, user=user, password=password, database=database
@@ -11,13 +13,17 @@ class db_handler:
 		except mysql.connector.Error as Error:
 			print(f"Encountered a database error: {Error}")
 
-	def test_connection(self) -> bool:
+	def test_connection(self):
 		"""
 		Test if the connection to the database and return its value
 		:return:
 		"""
 
-		return self.conn.is_connected()
+		try:
+			return self.conn.is_connected() if self.conn else False
+		except mysql.connector.Error as Error:
+			print(f"Encountered a database error: {Error}")
+			return False
 
 	def add_entry(self, table_name:str, columns:list, values:list):
 		"""
@@ -47,7 +53,7 @@ class db_handler:
 			# Rollback the transaction in case of error
 			self.conn.rollback()
 
-	def del_entry(self, table_name:str, condition):
+	def del_entry(self, table_name:str, condition:str):
 		"""
 		Used to delete an entry on a selected table.\n
 
@@ -73,7 +79,7 @@ class db_handler:
 			# Rollback the transaction in case of error
 			self.conn.rollback()
 
-	def mod_entry(self, table_name, updates, condition):
+	def mod_entry(self, table_name:str, updates:dict, condition:str):
 		"""
 		Used to modify an entry on a selected table.\n
 
@@ -101,4 +107,60 @@ class db_handler:
 			print(f"Encountered a database error: {Error}")
 			# Rollback the transaction in case of error
 			self.conn.rollback()
+
+	def get_entries(self, query: str, params=None):
+		"""
+		Used to fetch entries from the database based on the provided query and parameters.\n
+
+		**Example:**\n
+		db = db_handler('localhost', 'root', 'password', 'my_database')\n
+		query = "SELECT * FROM my_table WHERE column1 = %s"\n
+		params = ('value1',)\n
+		entries = db.get_entries(query, params)
+		for entry in entries:
+			print(entry)
+
+		:param query: The SQL query to execute.
+		:param params: The parameters to pass to the SQL query.
+		:return: A list of tuples containing the fetched records.
+		"""
+
+		try:
+			# Execute the query
+			self.curs.execute(query, params or ())
+			# Fetch all the records
+			entries = self.curs.fetchall()
+			return entries
+		except mysql.connector.Error as Error:
+			print(f"Encountered a database error: {Error}")
+			return []
+
+	def search_entry(self, table_name: str, search_condition: str, params=None):
+		"""
+		Searches for an entry in the database based on the provided condition.\n
+
+		**Example:**\n
+		db = db_handler('localhost', 'root', 'password', 'my_database')\n
+		search_condition = "column1 = %s AND column2 = %s"\n
+		params = ('value1', 'value2')\n
+		found = db.search_entry('my_table', search_condition, params)
+		print('Entry found:', found)
+
+		:param table_name: The name of the table to search in.
+		:param search_condition: The condition to match against records in the table.
+		:param params: The parameters to pass to the SQL query.
+		:return: True if an entry is found, False otherwise.
+		"""
+
+		try:
+			# Prepare the SQL query for searching data in the table
+			query = f"SELECT 1 FROM {table_name} WHERE {search_condition} LIMIT 1"
+			# Execute the query with params
+			self.curs.execute(query, params or ())
+			# Fetch one record
+			entry = self.curs.fetchone()
+			return bool(entry)
+		except mysql.connector.Error as Error:
+			print(f"Encountered a database error: {Error}")
+			return False
 
