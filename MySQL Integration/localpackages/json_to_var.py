@@ -4,8 +4,9 @@ import json
 from . import others
 
 
-class json_to_var:
-	def __init__(self):
+class json_to_var():
+	def __init__(self, os_environ_mode=False):
+		self.os_environ_mode = os_environ_mode
 		self.posix = others.posix_type()
 		self.Guilded_API = ""
 		self.Default_Prefix = ""
@@ -18,6 +19,7 @@ class json_to_var:
 		self.run()
 
 	def run(self):
+
 		print("on json_to_var.py file")
 
 		if self.validate_configs_file() is False:
@@ -66,8 +68,11 @@ class json_to_var:
 			self.Guilded_API = content["Guilded_API"]
 			print("Checking the value...")
 			if self.Guilded_API is None or self.Guilded_API.replace(" ", "") == "":
-				print("Guilded_API cannot be empty!")
-				exit("configs.json -> Guilded_API = null")
+				if not self.os_environ_mode:
+					print("Guilded_API cannot be empty!")
+					exit("configs.json -> Guilded_API = null")
+				else:
+					print("Bypassed...")
 
 			print("Grabbing the value for Default_Prefix")
 			self.Default_Prefix = content["Default_Prefix"]
@@ -96,8 +101,11 @@ class json_to_var:
 
 			print("Checking the MySQL connection values")
 			if self.mysql_hostname.replace(" ", "") == "" or self.mysql_username.replace(" ", "") == "" or self.mysql_hostname.replace(" ", "") == "":
-				print("MySQL connection values cannot be empty!")
-				exit("configs.json -> MySQL_Connection... = has null")
+				if not self.os_environ_mode:
+					print("MySQL connection values cannot be empty!")
+					exit("configs.json -> MySQL_Connection... = has null")
+				else:
+					print("Bypassed...")
 
 			print("Content grabbing complete!")
 		except json.JSONDecodeError as error:

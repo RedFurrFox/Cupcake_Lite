@@ -10,7 +10,6 @@ gen
 *TEST_*
 configs.json
 __pycache__
-localpackages/configs.json
 localpackages/__pycache__/
 TEST/
 /MySQL Integration/configs.json

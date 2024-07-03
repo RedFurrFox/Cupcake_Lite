@@ -13,6 +13,11 @@ class db_handler:
 		except mysql.connector.Error as Error:
 			print(f"Encountered a database error: {Error}")
 
+	def __del__(self):
+		# Automatically closes the created instances of self.conn if unused
+		if self.conn:
+			self.conn.close()
+
 	def test_connection(self):
 		"""
 		Test if the connection to the database and return its value
@@ -143,8 +148,8 @@ class db_handler:
 		db = db_handler('localhost', 'root', 'password', 'my_database')\n
 		search_condition = "column1 = %s AND column2 = %s"\n
 		params = ('value1', 'value2')\n
-		found = db.search_entry('my_table', search_condition, params)
-		print('Entry found:', found)
+		found = db.search_entry('my_table', search_condition, params)\n
+		print(f'Entry found: {found}')
 
 		:param table_name: The name of the table to search in.
 		:param search_condition: The condition to match against records in the table.
@@ -164,3 +169,24 @@ class db_handler:
 			print(f"Encountered a database error: {Error}")
 			return False
 
+	def search_entry_content(self, table_name: str, search_condition: str, params=None):
+		"""
+		Searches for an entry in the database based on the provided condition and returns column data.
+
+		:param table_name: The name of the table to search in.
+		:param search_condition: The condition to match against records in the table.
+		:param params: The parameters to pass to the SQL query.
+		:return: Column data if an entry is found, None otherwise.
+		"""
+
+		try:
+			# Prepare the SQL query for selecting data from the table
+			query = f"SELECT * FROM {table_name} WHERE {search_condition} LIMIT 1"
+			# Execute the query with params
+			self.curs.execute(query, params or ())
+			# Fetch one record
+			entry = self.curs.fetchone()
+			return entry  # Returns the entire row (column data) if found
+		except mysql.connector.Error as Error:
+			print(f"Encountered a database error: {Error}")
+			return None

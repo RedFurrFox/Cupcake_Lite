@@ -1,16 +1,16 @@
 from guilded import Embed, Colour
 from guilded.ext import commands
 
-from ..properties import themes, aliases
+from ..properties import themes
+
 TH = themes()
-AL = aliases()
 
 
-class PingCog(commands.Cog):
+class InfoCog(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
-	@commands.command(name="ping", aliases=AL.ping)
+	@commands.command(name="ping", aliases=["p", "pi", "pin", "ping", "pings", "pinging", "pinged"])
 	async def ping(self, ctx):
 		E = Embed(title="Ping command", description="Pinging...")
 		E.colour = TH.White
@@ -34,4 +34,4 @@ class PingCog(commands.Cog):
 
 
 def setup(bot):
-	bot.add_cog(PingCog(bot))
+	bot.add_cog(InfoCog(bot))
