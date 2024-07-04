@@ -25,3 +25,4 @@ class aliases:
 		self.help = ["h", "help", "docs", "huh", "what"]
 		self.info = ["i", "in", "info", "infos", "information", "informations"]
 		self.ping = ["p", "pi", "pin", "ping", "pings", "pinging", "pinged"]
+		self.register = ["r", "re", "reg", "regi", "regis", "registe", "register"]

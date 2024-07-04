@@ -7,7 +7,7 @@ AL = aliases()
 
 
 class PingCog(commands.Cog):
-	def __init__(self, bot):
+	def __init__(self, bot, DBH):
 		self.bot = bot
 
 	@commands.command(name="ping", aliases=AL.ping)
@@ -33,5 +33,5 @@ class PingCog(commands.Cog):
 		await Message.edit(embed=E)
 
 
-def setup(bot):
-	bot.add_cog(PingCog(bot))
+def setup(bot, DBH):
+	bot.add_cog(PingCog(bot, DBH))
