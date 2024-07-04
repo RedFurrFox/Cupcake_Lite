@@ -5,6 +5,9 @@ from localpackages.db_handler import db_handler
 from localpackages.others import clear_terminal
 from localpackages.others import posix_type
 
+# If you want to use "os.environ['...']". Please go to line 21
+
+
 class CupcakeBot:
     def __init__(self):
         self.JTV = None
@@ -14,7 +17,15 @@ class CupcakeBot:
     def get_jtv_instance(self):
         if self.JTV is None:
             self.JTV = json_to_var()
-            # Set other JTV properties here
+
+            self.JTV.os_environ_mode = False
+            # If this ^^^^^^^^^^^^^^^^^ is true then it will ignore empty required datas from JTV.run()
+            # and you can manually add your secret credentials here. Example (You can uncomment this):
+            # JTV.Guilded_API = os.environ["Guilded_API"]
+            # JTV.mysql_hostname = os.environ["mysql_hostname"]
+            # JTV.mysql_username = os.environ["mysql_username"]
+            # JTV.mysql_dbname = os.environ["mysql_dbname"]
+            # JTV.mysql_password = os.environ["mysql_password"]
         return self.JTV
 
     def get_dbh_instance(self):
