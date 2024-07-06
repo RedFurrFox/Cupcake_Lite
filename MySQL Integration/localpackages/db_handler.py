@@ -20,7 +20,7 @@ class db_handler:
 
 	def test_connection(self):
 		"""
-		Test if the connection to the database and return its value
+		Test if the connection to the database successful and return its value
 		:return:
 		"""
 
@@ -29,6 +29,12 @@ class db_handler:
 		except mysql.connector.Error as Error:
 			print(f"Encountered a database error: {Error}")
 			return False
+
+	def validator(self):
+		"""
+		Validate MySQL Database required tables
+		:return:
+		"""
 
 	def add_entry(self, table_name:str, columns:list, values:list):
 		"""

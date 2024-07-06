@@ -19,8 +19,8 @@ class CupcakeBot:
             self.JTV = json_to_var()
 
             self.JTV.os_environ_mode = False
-            # If this ^^^^^^^^^^^^^^^^^ is true then it will ignore empty required datas from JTV.run()
-            # and you can manually add your secret credentials here. Example (You can uncomment this):
+            # If this ^^^^^^^^^^^^^^^^^^^^^^ is true then it will ignore empty required datas from JTV.run()
+            # and you can manually add your secret credentials here. Example (You can uncomment these):
             # JTV.Guilded_API = os.environ["Guilded_API"]
             # JTV.mysql_hostname = os.environ["mysql_hostname"]
             # JTV.mysql_username = os.environ["mysql_username"]

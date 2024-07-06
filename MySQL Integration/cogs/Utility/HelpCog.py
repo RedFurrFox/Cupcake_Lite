@@ -233,16 +233,20 @@ class HelpCog(commands.Cog):
 					E.add_field(
 						name="1.) Server owner",
 						value="The person who owns this server",
+						inline=False
 					)
 					E.add_field(
 						name="2.) Has admin role",
-						value="Role/s that has been registered on this bot."
+						value="Role/s that has been registered on this bot by the server owner.",
+						inline=False
 					)
 					E.add_field(
 						name="3.) Has mod role",
-						value="Role/s that has been registered on this bot."
+						value="Role/s that has been registered on this bot by the server owner or by the admin.",
+						inline=False
 					)
 					E.colour = TH.Orange
+
 			# Command not found
 			else:
 				# print(3)
